@@ -4,7 +4,7 @@
 #include "MathCourseProject/Constants.h"
 #include "MathCourseProject/Context/ContextHelpers.h"
 
-// Sets default values
+//Constructor
 AStateDemonstrator::AStateDemonstrator()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,7 +13,8 @@ AStateDemonstrator::AStateDemonstrator()
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 }
 
-// Called every frame
+//Tick (every frame)
+//TODO: clean up and make functions
 void AStateDemonstrator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -37,7 +38,44 @@ void AStateDemonstrator::Tick(float DeltaTime)
 		1,
 		FColor::Green
 		);
+}
 
+//Enables viewport tick
+bool AStateDemonstrator::ShouldTickIfViewportsOnly() const
+{
+	return true;
+}
+
+//Moves character
+void AStateDemonstrator::MoveToRandomPosition()
+{
+	//Get random location on map and move character to it
+	float newX = FMath::RandRange(-1000.f, 1000.f);
+	float newY = FMath::RandRange(-750.f, 750.f);
+	
+	StaticMeshComponent->SetWorldLocation(FVector(newX, newY, 100.f));
+
+	//Get random z rotation and set it
+	StaticMeshComponent->SetRelativeRotation(FRotator(0, FMath::RandRange(0.f, 360.f), 0));
+}
+
+//Updates current context
+void AStateDemonstrator::UpdateUnitContext()
+{
+	//Updates the current context
+	GetContext();
+}
+
+//Starts fight
+void AStateDemonstrator::SimulateFightFromCurrentContext()
+{
+	//Does [something] based on current context (ex. deals damage, takes damage)
+	ContextResponder();
+}
+
+//Getting of context
+void AStateDemonstrator::GetContext()
+{
 	for (auto Other : Demonstrators)
 	{
 		if(!IsValid(Other)) return;
@@ -46,7 +84,15 @@ void AStateDemonstrator::Tick(float DeltaTime)
 	}
 }
 
-bool AStateDemonstrator::ShouldTickIfViewportsOnly() const
+//Responding of context
+void AStateDemonstrator::ContextResponder()
 {
-	return true;
+	//If other unit is seen and close, deal 25 damage to them
+	if(TEST_BIT(Context, ERelativeContext::Seen) && TEST_BIT(Context, ERelativeContext::Close))
+	{
+		if(AStateDemonstrator* OtherUnit = StaticCast<AStateDemonstrator*>(Demonstrators[0]))
+		{
+			OtherUnit->Health -= 25.f;
+		}
+	}
 }
