@@ -4,7 +4,6 @@
 #include "MathCourseProject/Constants.h"
 #include "MathCourseProject/Context/ContextHelpers.h"
 
-//Constructor
 AStateDemonstrator::AStateDemonstrator()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,7 +12,6 @@ AStateDemonstrator::AStateDemonstrator()
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 }
 
-//Tick (every frame)
 //TODO: clean up and make functions
 void AStateDemonstrator::Tick(float DeltaTime)
 {
@@ -59,21 +57,23 @@ void AStateDemonstrator::MoveToRandomPosition()
 	StaticMeshComponent->SetRelativeRotation(FRotator(0, FMath::RandRange(0.f, 360.f), 0));
 }
 
-//Updates current context
 void AStateDemonstrator::UpdateUnitContext()
 {
 	//Updates the current context
 	GetContext();
 }
 
-//Starts fight
 void AStateDemonstrator::SimulateFightFromCurrentContext()
 {
 	//Does [something] based on current context (ex. deals damage, takes damage)
 	ContextResponder();
 }
 
-//Getting of context
+void AStateDemonstrator::DoToggleFightStance()
+{
+	ToggleFightStance();
+}
+
 void AStateDemonstrator::GetContext()
 {
 	for (auto Other : Demonstrators)
@@ -84,10 +84,9 @@ void AStateDemonstrator::GetContext()
 	}
 }
 
-//Responding of context
 void AStateDemonstrator::ContextResponder()
 {
-	//If other unit is seen and close, deal 25 damage to them
+	//Checks for other unit in range and deals damage to them
 	if(TEST_BIT(Context, ERelativeContext::Seen) && TEST_BIT(Context, ERelativeContext::Close))
 	{
 		if(AStateDemonstrator* OtherUnit = StaticCast<AStateDemonstrator*>(Demonstrators[0]))

@@ -60,4 +60,14 @@ public:
 	//Fighting
 	UFUNCTION(BlueprintCallable, Category = "Gameplay Functions")
 	void SimulateFightFromCurrentContext();
+
+	//** EVENT CALLERS **//
+	UFUNCTION(BlueprintCallable, Category = "State Demonstrator Events")
+	void DoToggleFightStance();
+	
+	//** BLUEPRINT IMPLEMENTABLE EVENTS **//
+
+	//Fight Stance
+	UFUNCTION(BlueprintImplementableEvent, Category = "State Demonstrator Implementable Events")
+	void ToggleFightStance();
 };
