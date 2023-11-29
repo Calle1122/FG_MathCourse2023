@@ -36,25 +36,44 @@ void AStateDemonstrator::Tick(float DeltaTime)
 		1,
 		FColor::Green
 		);
+
+	//Interpolation
+
+	if(T < 1)
+	{
+		T += DeltaTime * InterpSpeed;
+
+		FVector NewPos = FMath::Lerp(CurrentPos, TargetPos, T);
+		NewPos += FVector(0, 0, ZCurve->GetFloatValue(T));
+		
+		SetActorLocation(NewPos);
+
+		FRotator NewRot = FMath::Lerp(CurrentRot, TargetRot, T);
+		NewRot += FRotator(RotCurve->GetVectorValue(T).X, RotCurve->GetVectorValue(T).Y, RotCurve->GetVectorValue(T).Z);
+		
+		SetActorRotation(NewRot);
+	}
 }
 
 //Enables viewport tick
 bool AStateDemonstrator::ShouldTickIfViewportsOnly() const
 {
-	return true;
+	return false;
 }
 
 //Moves character
 void AStateDemonstrator::MoveToRandomPosition()
 {
-	//Get random location on map and move character to it
+	CurrentPos = GetActorLocation();
+	CurrentRot = GetActorRotation();
+	
 	float newX = FMath::RandRange(-1000.f, 1000.f);
 	float newY = FMath::RandRange(-750.f, 750.f);
 	
-	StaticMeshComponent->SetWorldLocation(FVector(newX, newY, 100.f));
+	TargetPos = (FVector(newX, newY, 0));
+	TargetRot = (FRotator(0, FMath::RandRange(0.f, 360.f), 0));
 
-	//Get random z rotation and set it
-	StaticMeshComponent->SetRelativeRotation(FRotator(0, FMath::RandRange(0.f, 360.f), 0));
+	T = 0;
 }
 
 void AStateDemonstrator::UpdateUnitContext()

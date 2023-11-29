@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Curves/CurveVector.h"
 #include "GameFramework/Actor.h"
 #include "StateDemonstrator.generated.h"
 
@@ -35,8 +36,33 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Context")
 	bool DrawArc;
 
+	//Interp Speed
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Interpolation")
+	float InterpSpeed = 1.5f;
+	//Interp Height Curve
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Interpolation")
+	UCurveFloat* ZCurve;
+	//Interp Rotation Curve
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Interpolation")
+	UCurveVector* RotCurve;
+
 protected:
 
+	//** INTERNAL VARIABLES **/
+
+	//Interp Alpha
+	float T;
+	
+	//Current Position
+	FVector CurrentPos;
+	//Current Rotation
+	FRotator CurrentRot;
+	
+	//Target Position
+	FVector TargetPos;
+	//Target Rotation
+	FRotator TargetRot;
+	
 	//** INTERNAL GAME FUNCTIONS **/
 
 	//Get Current Context
