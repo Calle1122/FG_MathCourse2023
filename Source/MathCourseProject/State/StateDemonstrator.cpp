@@ -17,6 +17,8 @@ void AStateDemonstrator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//Debug Drawing
+	
 	const FVector Cross = FVector::CrossProduct(GetActorForwardVector(), GetActorRightVector());
 
 	DrawDebugLine(GetWorld(), GetActorLocation(), GetActorLocation() + GetActorForwardVector() * 100.f, FColor::Red);
@@ -44,12 +46,20 @@ void AStateDemonstrator::Tick(float DeltaTime)
 		T += DeltaTime * InterpSpeed;
 
 		FVector NewPos = FMath::Lerp(CurrentPos, TargetPos, T);
-		NewPos += FVector(0, 0, ZCurve->GetFloatValue(T));
+		//Add height into interpolation based on curve asset
+		if(ZCurve)
+		{
+			NewPos += FVector(0, 0, ZCurve->GetFloatValue(T));
+		}
 		
 		SetActorLocation(NewPos);
 
 		FRotator NewRot = FMath::Lerp(CurrentRot, TargetRot, T);
-		NewRot += FRotator(RotCurve->GetVectorValue(T).X, RotCurve->GetVectorValue(T).Y, RotCurve->GetVectorValue(T).Z);
+		//Add rotation (cool flips) into interpolation based on curve asset
+		if(RotCurve)
+		{
+			NewRot += FRotator(RotCurve->GetVectorValue(T).X, RotCurve->GetVectorValue(T).Y, RotCurve->GetVectorValue(T).Z);
+		}
 		
 		SetActorRotation(NewRot);
 	}
@@ -64,6 +74,11 @@ bool AStateDemonstrator::ShouldTickIfViewportsOnly() const
 //Moves character
 void AStateDemonstrator::MoveToRandomPosition()
 {
+	if(T < 1)
+	{
+		return;
+	}
+	
 	CurrentPos = GetActorLocation();
 	CurrentRot = GetActorRotation();
 	
@@ -88,6 +103,7 @@ void AStateDemonstrator::SimulateFightFromCurrentContext()
 	ContextResponder();
 }
 
+//Used for extending and retracting swords
 void AStateDemonstrator::DoToggleFightStance()
 {
 	ToggleFightStance();

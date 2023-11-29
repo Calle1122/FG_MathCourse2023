@@ -51,7 +51,7 @@ protected:
 	//** INTERNAL VARIABLES **/
 
 	//Interp Alpha
-	float T;
+	float T = 1;
 	
 	//Current Position
 	FVector CurrentPos;
