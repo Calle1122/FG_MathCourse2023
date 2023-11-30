@@ -12,7 +12,6 @@ AStateDemonstrator::AStateDemonstrator()
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 }
 
-//TODO: clean up and make functions
 void AStateDemonstrator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -39,8 +38,10 @@ void AStateDemonstrator::Tick(float DeltaTime)
 		FColor::Green
 		);
 
+	//**	
 	//Interpolation
-
+	//**
+	
 	if(T < 1)
 	{
 		T += DeltaTime * InterpSpeed;
@@ -63,12 +64,6 @@ void AStateDemonstrator::Tick(float DeltaTime)
 		
 		SetActorRotation(NewRot);
 	}
-}
-
-//Enables viewport tick
-bool AStateDemonstrator::ShouldTickIfViewportsOnly() const
-{
-	return false;
 }
 
 //Moves character
@@ -103,7 +98,7 @@ void AStateDemonstrator::SimulateFightFromCurrentContext()
 	ContextResponder();
 }
 
-//Used for extending and retracting swords
+//Used for extending and retracting swords (BP Event)
 void AStateDemonstrator::DoToggleFightStance()
 {
 	ToggleFightStance();

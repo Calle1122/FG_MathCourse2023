@@ -12,22 +12,22 @@ class MATHCOURSEPROJECT_API AIntersector : public AActor
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	AIntersector();
 
+	//Other actor used for checking intersections with this actor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Intersection")
 	TObjectPtr<AActor> OtherActor;
 
+	//Checks intersections between two spheres
 	bool SphereSphereIntersection(FVector Sphere1Pos, float Sphere1Radius, FVector Sphere2Pos, float Sphere2Radius);
 
+	//BP called event whenever there is an intersection between this Actor and "OtherActor"
 	UFUNCTION(BlueprintImplementableEvent, Category = "Intersection")
 	void OnIntersect();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 };

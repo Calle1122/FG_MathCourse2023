@@ -73,7 +73,6 @@ protected:
 public:
 	
 	virtual void Tick(float DeltaTime) override;
-	virtual bool ShouldTickIfViewportsOnly() const override;
 
 	//** EXTERNAL GAME FUNCTIONS **/
 

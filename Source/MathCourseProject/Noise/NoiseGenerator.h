@@ -14,9 +14,13 @@ class MATHCOURSEPROJECT_API ANoiseGenerator : public AActor
 public:
 	ANoiseGenerator();
 
+	//Actor class used to display the generated noise
 	UPROPERTY(EditAnywhere, Category="Noise")
 	TSubclassOf<AActor> ObjectToSpawn;
-	
+
+	//**
+	//Noise settings
+	//**
 	UPROPERTY(EditAnywhere, Category="Noise")
 	int Resolution;
 	UPROPERTY(EditAnywhere, Category="Noise")
@@ -29,6 +33,7 @@ public:
 	FVector2D Offset;
 
 private:
+	//Generated noise variables
 	TArray<float> NoiseArray;
 	TArray<FVector> PositionArray;
 

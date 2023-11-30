@@ -1,17 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "NoiseGenerator.h"
 
-
-// Sets default values
 ANoiseGenerator::ANoiseGenerator()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
 void ANoiseGenerator::BeginPlay()
 {
 	Super::BeginPlay();
@@ -19,9 +14,11 @@ void ANoiseGenerator::BeginPlay()
 	GenerateNoise();
 	GeneratePositions();
 
+	//Spawns objects to display the generated noise
 	PopulatePositions();
 }
 
+//Generates 2D Perlin noise
 void ANoiseGenerator::GenerateNoise()
 {
 	NoiseArray.SetNum((Resolution + 1) * (Resolution + 1));
@@ -40,6 +37,7 @@ void ANoiseGenerator::GenerateNoise()
 	}
 }
 
+//Makes a 2D grid of positions to later be populated by objects based on the 2D perlin noise
 void ANoiseGenerator::GeneratePositions()
 {
 	PositionArray.SetNum((Resolution + 1) * (Resolution + 1));
@@ -56,6 +54,7 @@ void ANoiseGenerator::GeneratePositions()
 	}
 }
 
+//Spawns objects at generated positions based on 2D perlin noise.
 void ANoiseGenerator::PopulatePositions()
 {
 	for (auto Index = 0; Index <= ((Resolution) * (Resolution)); Index++)
@@ -67,7 +66,6 @@ void ANoiseGenerator::PopulatePositions()
 	}
 }
 
-// Called every frame
 void ANoiseGenerator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
