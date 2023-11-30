@@ -11,7 +11,7 @@
 #include "RelativeContext.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "MathCourseProject/Constants.h"
-#include "MathCourseProject/State/StateDemonstrator.h"
+#include "MathCourseProject/State&Interpolation/StateDemonstrator.h"
 #include "ContextHelpers.generated.h"
 
 /**
